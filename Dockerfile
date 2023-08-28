@@ -13,6 +13,7 @@ RUN npm install && npm install typescript -g
 # Copy all source code to the container
 COPY . .
 
+# Complile TypeScript to JavaScript
 RUN tsc
 
 # Command to run the app
