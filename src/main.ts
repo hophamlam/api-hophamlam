@@ -21,4 +21,5 @@ app.post("/webhook", (req: Request, res: Response) => {
 // Start the Express server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+  console.log("test github workflows");
 });
