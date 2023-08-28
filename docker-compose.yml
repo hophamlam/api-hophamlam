@@ -6,6 +6,8 @@ services:
       dockerfile: Dockerfile
     expose:
       - ${PORT}
+    # ports:
+    #   - ${PORT}:${PORT}
     labels:
       caddy: ${DOMAIN}
       caddy.reverse_proxy: "{{upstreams ${PORT}}}"

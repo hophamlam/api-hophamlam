@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as the base image
-FROM node:14
+FROM node:18-alpine
 
 # Set the working directory inside the container
 WORKDIR /usr/src/app
@@ -8,10 +8,12 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install app dependencies
-RUN npm install
+RUN npm install && npm install typescript -g
 
 # Copy all source code to the container
 COPY . .
+
+RUN tsc
 
 # Command to run the app
 CMD ["node", "dist/main.js"]
