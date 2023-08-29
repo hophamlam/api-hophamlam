@@ -2,6 +2,7 @@
 import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import { sendDiscordWebhook } from "./sendDiscord";
+// import { getTodayLunar } from "./yourLunarModule"; // Import the function to get lunar data
 import "dotenv/config";
 
 const app = express();
@@ -18,8 +19,13 @@ app.post("/webhook", (req: Request, res: Response) => {
   sendDiscordWebhook();
 });
 
+// Define a GET route to get today's lunar data
+app.get("/lunar", (req: Request, res: Response) => {
+  // const lunarData = getTodayLunar(); // Call the function to get lunar data
+  res.json({ lunarData: "test-lunarData" });
+});
+
 // Start the Express server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
-  console.log("test github workflows");
 });

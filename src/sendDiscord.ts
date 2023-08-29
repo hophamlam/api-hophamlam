@@ -3,19 +3,19 @@ import "dotenv/config";
 
 export function sendDiscordWebhook() {
   const data = JSON.stringify({
-    username: "Nhận chuyển khoản VCB 1012.842.851",
+    username: "Test webhook",
     content: "Nhận VNĐ",
     embeds: [
       {
         author: {
-          name: "Hồ Phạm Lâm - VCB - 1012.842.851",
+          name: "test-name-embed",
         },
-        title: "💵 VNĐ",
+        title: "test-title-embed",
         color: "5613637",
         fields: [
           {
-            name: "⏲️",
-            value: "🗎",
+            name: "⏲️test-field-name",
+            value: "🗎 test-value",
           },
         ],
       },
