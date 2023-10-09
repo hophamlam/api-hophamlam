@@ -6,8 +6,8 @@ services:
       dockerfile: Dockerfile
     expose:
       - ${PORT}
-    ports:
-      - ${PORT}:${PORT}
+    # ports:
+    #   - ${PORT}:${PORT}
     networks:
       - caddy
     labels:
