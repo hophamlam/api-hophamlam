@@ -1,1 +1,3 @@
-# api-hophamlam
+# gaolamthuy-api
+
+local dev: `npm dev`

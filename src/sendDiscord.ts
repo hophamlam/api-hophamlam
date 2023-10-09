@@ -1,31 +1,16 @@
 import axios from "axios";
 import "dotenv/config";
 
-export function sendDiscordWebhook() {
+export function sendDiscordWebhook(webhookUrl: string, message: string) {
   const data = JSON.stringify({
-    username: "Test webhook",
-    content: "Nhận VNĐ",
-    embeds: [
-      {
-        author: {
-          name: "test-name-embed",
-        },
-        title: "test-title-embed",
-        color: "5613637",
-        fields: [
-          {
-            name: "⏲️test-field-name",
-            value: "🗎 test-value",
-          },
-        ],
-      },
-    ],
+    username: "Webhook Bot",
+    content: message,
   });
 
   const config = {
     method: "post",
     maxBodyLength: Infinity,
-    url: process.env.TEST_DISCORD_WEBHOOK_URL,
+    url: webhookUrl,
     headers: {
       "Content-Type": "application/json",
     },
@@ -38,6 +23,7 @@ export function sendDiscordWebhook() {
       console.log(JSON.stringify(response.data));
     })
     .catch((error) => {
-      console.log(error);
+      console.error("Error sending to Discord:", error.message);
+      // Handle the error more gracefully here, e.g., retry, alert admin, etc.
     });
 }
