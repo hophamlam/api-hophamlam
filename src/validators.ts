@@ -8,11 +8,11 @@ type VCBData = {
 };
 
 export const extractVCBData = (body: string): VCBData | null => {
-  const accountNumberPattern = /TK VCB (\d{10})/;
-  const debitCreditPattern = /TK VCB \d{10} ([+-])/;
-  const amountPattern = /TK VCB \d{10} [+-](\d{1,3}(?:,\d{3})*\s*VND)/;
+  const accountNumberPattern = /\b(0071001027650|1012842851)\b/g;
+  const debitCreditPattern = /[+-]/;
+  const amountPattern = /[+-]([\d,]+) VND/;
   const descriptionPattern = /Ref (.+)/;
-  const datetimePattern = /lúc (\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2})/;
+  const datetimePattern = /(\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2})/;
 
   const accountNumberMatch = accountNumberPattern.exec(body);
   const debitCreditMatch = debitCreditPattern.exec(body);
