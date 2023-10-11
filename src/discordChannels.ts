@@ -5,6 +5,6 @@ type DiscordChannelsType = {
 
 export const DISCORD_CHANNELS: DiscordChannelsType = {
   "default": process.env.GAOLAMTHUY_TEST_DISCORD_WEBHOOK_URL,
-  "com.vcb": process.env.GAOLAMTHUY_BANKTRANS_DISCORD_WEBHOOK_URL,
+  "com.VCB": process.env.GAOLAMTHUY_BANKTRANS_DISCORD_WEBHOOK_URL,
   // ... other channels if needed in the future
 };

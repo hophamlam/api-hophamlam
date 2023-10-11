@@ -8,9 +8,9 @@ type VCBData = {
 };
 
 export const extractVCBData = (body: string): VCBData | null => {
-  const accountNumberPattern = /\b(0071001027650|1012842851)\b/g;
+  const accountNumberPattern = /\b(0071001027650|1012842851)\b/;
   const debitCreditPattern = /[+-]/;
-  const amountPattern = /[+-]([\d,]+) VND/;
+  const amountPattern = /([+-])([\d,]+) VND/;
   const descriptionPattern = /Ref (.+)/;
   const datetimePattern = /(\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2})/;
 
@@ -27,20 +27,28 @@ export const extractVCBData = (body: string): VCBData | null => {
     descriptionMatch &&
     datetimeMatch
   ) {
-    console.log(
-      accountNumberMatch,
-      debitCreditMatch,
-      amountMatch,
-      descriptionMatch,
-      datetimeMatch
-    );
+    console.log("All matches:", {
+      accountNumber: accountNumberMatch[0],
+      debitCredit: debitCreditMatch[0],
+      amount: amountMatch[2],
+      description: descriptionMatch[0],
+      datetime: datetimeMatch[0],
+    });
     return {
-      accountNumber: accountNumberMatch[1],
-      debitCredit: debitCreditMatch[1],
-      amount: amountMatch[1],
-      description: descriptionMatch[1],
-      datetime: datetimeMatch[1],
+      accountNumber: accountNumberMatch[0],
+      debitCredit: debitCreditMatch[0],
+      amount: amountMatch[2],
+      description: descriptionMatch[0],
+      datetime: datetimeMatch[0],
     };
+  } else {
+    console.warn("Missing match in payload:", {
+      accountNumber: !!accountNumberMatch,
+      debitCredit: !!debitCreditMatch,
+      amount: !!amountMatch,
+      description: !!descriptionMatch,
+      datetime: !!datetimeMatch,
+    });
   }
 
   return null;

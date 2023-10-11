@@ -1,6 +1,14 @@
 // sendDiscord.ts
 import axios from "axios";
 import "dotenv/config";
+import dayjs from "dayjs";
+import "dayjs/locale/vi"; // Import Vietnamese locale
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+
+// Use plugins
+dayjs.extend(localizedFormat);
+dayjs.extend(customParseFormat);
 
 export function sendDiscordWebhook(
   webhookUrl: string,
@@ -62,15 +70,30 @@ function createVCBEmbed(
           icon_url:
             "https://raw.githubusercontent.com/gaolamthuy/gaolamthuy-api/main/static/vcb.png",
         },
-        title: `💵 ${data.amount}`,
+        title: `💵 ${data.amount} VND`,
         color: 5613637,
         fields: [
           {
-            name: `⏲️ ${data.datetime}`,
+            name: `⏲️ ${formatDatetimeForVN(data.datetime)}`,
             value: `🗎 ${data.description}`,
           },
         ],
       },
     ],
   };
+}
+
+function formatDatetimeForVN(datetime: string): string {
+  dayjs.locale("vi"); // Set locale to Vietnamese
+  const date = dayjs(datetime, "DD-MM-YYYY HH:mm:ss"); // Parsing the datetime
+  const formattedDate = date.format("dddd, DD-MM-YYYY HH:mm:ss"); // Convert it to desired format
+  return capitalizeFirstLetterEachWord(formattedDate); // Capitalize the first letter of each word
+}
+
+function capitalizeFirstLetterEachWord(phrase: string): string {
+  return phrase
+    .toLowerCase()
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }

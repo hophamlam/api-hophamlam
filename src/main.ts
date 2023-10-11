@@ -41,7 +41,7 @@ app.post("/webhook", (req: Request, res: Response) => {
       extractedData.accountNumber === "1012842851" &&
       extractedData.debitCredit === "+"
     ) {
-      const webhookUrl = DISCORD_CHANNELS["com.vcb"] || "";
+      const webhookUrl = DISCORD_CHANNELS["com.VCB"] || "";
       sendDiscordWebhook(webhookUrl, payload.body, extractedData); // Passing the extracted data
     } else {
       // For all other cases within the "com.vcb" type
