@@ -1,3 +1,3 @@
 # gaolamthuy-api
 
-local dev: `npm dev`
+local dev: `npm run dev`
