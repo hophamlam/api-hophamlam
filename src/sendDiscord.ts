@@ -62,7 +62,7 @@ function createVCBEmbed(
   }
 ) {
   return {
-    content: originalMessage,
+    content: `Số dư TK ${data.accountNumber} + ${data.amount} VND lúc ${formatDatetimeForVN(data.datetime)}. Ref ${data.description}`,
     embeds: [
       {
         author: {
