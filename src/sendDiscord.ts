@@ -26,8 +26,8 @@ export function sendDiscordWebhook(
     payload = createVCBEmbed(message, data);
   } else {
     payload = {
-      username: "Webhook Bot",
-      content: message,
+      // username: "Số dư TK 1012.842.851",
+      // content: message,
     };
   }
 
@@ -62,22 +62,14 @@ function createVCBEmbed(
   }
 ) {
   return {
-    content: `Số dư TK ${data.accountNumber} +${data.amount} VND lúc ${formatDatetimeForVN(data.datetime)}. ${data.description}`,
+    username: `Số dư TK VCB ${data.accountNumber}`,
+    avatar_url:
+      "https://raw.githubusercontent.com/gaolamthuy/gaolamthuy-api/main/static/vcb.png",
     embeds: [
       {
-        author: {
-          name: `${data.accountNumber} - Hồ Phạm Lâm - VCB`,
-          icon_url:
-            "https://raw.githubusercontent.com/gaolamthuy/gaolamthuy-api/main/static/vcb.png",
-        },
-        title: `💵 ${data.amount} VND`,
+        title: `💵 ${data.amount} VND\n${formatDatetimeForVN(data.datetime)}`,
         color: 5613637,
-        fields: [
-          {
-            name: `⏲️ ${formatDatetimeForVN(data.datetime)}`,
-            value: `🗎 ${data.description}`,
-          },
-        ],
+        description: `${data.description}`,
       },
     ],
   };
@@ -86,7 +78,7 @@ function createVCBEmbed(
 function formatDatetimeForVN(datetime: string): string {
   dayjs.locale("vi"); // Set locale to Vietnamese
   const date = dayjs(datetime, "DD-MM-YYYY HH:mm:ss"); // Parsing the datetime
-  const formattedDate = date.format("dddd, DD-MM-YYYY HH:mm:ss"); // Convert it to desired format
+  const formattedDate = date.format("⏰ HH:mm:ss 📅 dddd, DD-MM-YYYY"); // Convert it to desired format
   return capitalizeFirstLetterEachWord(formattedDate); // Capitalize the first letter of each word
 }
 
