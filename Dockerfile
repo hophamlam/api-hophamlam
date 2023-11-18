@@ -4,6 +4,9 @@ FROM node:18-alpine
 # Set the working directory inside the container
 WORKDIR /usr/src/app
 
+# label the image
+LABEL org.opencontainers.image.source https://github.com/gaolamthuy/gaolamthuy-api
+
 # Copy package.json and package-lock.json to the container
 COPY package*.json ./
 
@@ -16,11 +19,8 @@ COPY . .
 # Complile TypeScript to JavaScript
 RUN tsc
 
-# Command to run the app
-CMD ["node", "dist/main.js"]
-
 # Expose port 3000
 EXPOSE 3000
 
-# label the image
-LABEL org.opencontainers.image.source https://github.com/gaolamthuy/gaolamthuy-api
+# Command to run the app
+CMD ["node", "dist/main.js"]
