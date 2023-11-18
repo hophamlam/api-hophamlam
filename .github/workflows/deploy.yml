@@ -22,36 +22,36 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository }}/gaolamthuy-api:latest
+          tags: ghcr.io/${{ github.repository }}:latest
 
-  deploy:
-    name: Deploy to Server
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    steps:
-      - name: Executing remote SSH commands using SSH key
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          script: |
+  # deploy:
+  #   name: Deploy to Server
+  #   needs: build-and-push
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Executing remote SSH commands using SSH key
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.HOST }}
+  #         username: ${{ secrets.USERNAME }}
+  #         key: ${{ secrets.KEY }}
+  #         script: |
 
-            # Remove the old .env file if it exists
-            sudo rm -f ~/${{ github.event.repository.name }}/.env
+  #           # Remove the old .env file if it exists
+  #           sudo rm -f ~/${{ github.event.repository.name }}/.env
 
-            # Create a new .env file with secrets
-            echo "${{ secrets.DOTENV }}" | sudo tee -a ~/${{ github.event.repository.name }}/.env
+  #           # Create a new .env file with secrets
+  #           echo "${{ secrets.DOTENV }}" | sudo tee -a ~/${{ github.event.repository.name }}/.env
 
-            # Add any additional deployment commands
-            sudo echo "Deploying via SSH..."
+  #           # Add any additional deployment commands
+  #           sudo echo "Deploying via SSH..."
 
-            # Pull the latest Docker image from GitHub Container Registry
-            sudo docker pull ghcr.io/${{ github.repository }}/your-image-name:latest
+  #           # Pull the latest Docker image from GitHub Container Registry
+  #           sudo docker pull ghcr.io/${{ github.repository }}/your-image-name:latest
 
-            # Add any additional commands for deployment
-            cd ~/${{ github.event.repository.name }}
-            sudo docker system prune -f
-            sudo docker image prune -a --force
-            sudo docker compose up --build --force-recreate --no-deps -d
-            echo "done"
+  #           # Add any additional commands for deployment
+  #           cd ~/${{ github.event.repository.name }}
+  #           sudo docker system prune -f
+  #           sudo docker image prune -a --force
+  #           sudo docker compose up --build --force-recreate --no-deps -d
+  #           echo "done"
