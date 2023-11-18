@@ -70,3 +70,5 @@ app.post("/uptime", (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+console.log("Hello from main.ts!");
