@@ -28,5 +28,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ghcr.io/gaolamthuy/gaolamthuy-helloworld:latest
-            ghcr.io/gaolamthuy/gaolamthuy-helloworld:1.0.0
+            ghcr.io/gaolamthuy/gaolamthuy-api:latest
+            ghcr.io/gaolamthuy/gaolamthuy-api:1.0.0
