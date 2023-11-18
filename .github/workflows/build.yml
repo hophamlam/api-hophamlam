@@ -29,4 +29,4 @@ jobs:
           push: true
           tags: |
             ghcr.io/gaolamthuy/gaolamthuy-api:latest
-            ghcr.io/gaolamthuy/gaolamthuy-api:1.0.0
+            ghcr.io/gaolamthuy/gaolamthuy-api:1.0.1
