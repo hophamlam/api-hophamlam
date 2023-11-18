@@ -18,3 +18,9 @@ RUN tsc
 
 # Command to run the app
 CMD ["node", "dist/main.js"]
+
+# Expose port 3000
+EXPOSE 3000
+
+# label the image
+LABEL org.opencontainers.image.source https://github.com/gaolamthuy/gaolamthuy-api
