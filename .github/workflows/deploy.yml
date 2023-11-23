@@ -8,7 +8,6 @@ on:
 jobs:
   deploy:
     name: Deploy to Server
-    needs: build-and-push
     runs-on: ubuntu-latest
     steps:
       - name: Executing remote SSH commands using SSH key
