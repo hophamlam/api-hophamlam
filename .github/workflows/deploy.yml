@@ -51,6 +51,6 @@ jobs:
 
                 # Navigate to the directory and execute docker-compose up
                 cd "$REPO_DIR"
-                docker-compose up --build --force-recreate --no-deps -d
+                docker compose up --build --force-recreate --no-deps -d
                 echo "Deployment completed."
             fi
