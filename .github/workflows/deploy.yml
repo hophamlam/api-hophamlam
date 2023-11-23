@@ -35,7 +35,7 @@ jobs:
                 echo "Container is not running. Setting up new deployment..."
 
                 # Directory for the repository
-                REPO_DIR="~/${{ github.event.repository.name }}"
+                REPO_DIR="${{ github.event.repository.name }}"
 
                 # Create directory if it doesn't exist
                 mkdir -p "$REPO_DIR"
