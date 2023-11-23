@@ -8,19 +8,23 @@ WORKDIR /usr/src/app
 LABEL org.opencontainers.image.source https://github.com/gaolamthuy/gaolamthuy-api
 
 # Copy package.json and package-lock.json to the container
+# This is done before copying the entire source code to leverage Docker cache layers
 COPY package*.json ./
 
 # Install app dependencies
-RUN npm install && npm install typescript -g
+# Including TypeScript as a dev dependency in package.json is recommended
+RUN npm install
 
 # Copy all source code to the container
 COPY . .
 
-# Complile TypeScript to JavaScript
-RUN tsc
+# Compile TypeScript to JavaScript
+RUN npm run build
 
-# Expose port 3000
-EXPOSE 3000
+# Run the app as a non-root user for security purposes
+# Create a user and switch to it
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
 
 # Command to run the app
 CMD ["node", "dist/main.js"]
