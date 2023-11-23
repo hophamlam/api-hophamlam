@@ -1,36 +1,54 @@
-# name: Build and Deploy
+name: Build and Deploy
 
-# on: [push]
+on: [push]
 
-# jobs:
-#   deploy:
-#     name: Deploy to Server
-#     needs: build-and-push
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Executing remote SSH commands using SSH key
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: ${{ secrets.HOST }}
-#           username: ${{ secrets.USERNAME }}
-#           key: ${{ secrets.KEY }}
-#           script: |
+jobs:
+  deploy:
+    name: Deploy to Server
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Executing remote SSH commands using SSH key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: |
 
-#             # Remove the old .env file if it exists
-#             sudo rm -f ~/${{ github.event.repository.name }}/.env
+            #!/bin/bash
 
-#             # Create a new .env file with secrets
-#             echo "${{ secrets.DOTENV }}" | sudo tee -a ~/${{ github.event.repository.name }}/.env
+            # Container name
+            CONTAINER_NAME="gaolamthuy-api"
 
-#             # Add any additional deployment commands
-#             sudo echo "Deploying via SSH..."
+            # Check if the container is running
+            if [ $(docker ps -q -f "name=$CONTAINER_NAME") ]; then
+                echo "Container is running. Pulling latest image and recreating container..."
 
-#             # Pull the latest Docker image from GitHub Container Registry
-#             sudo docker pull ghcr.io/${{ github.repository }}/your-image-name:latest
+                # Pull latest image and recreate the container
+                docker-compose pull
+                docker-compose up --build --force-recreate --no-deps -d
+                echo "Container recreated."
+            else
+                echo "Container is not running. Setting up new deployment..."
 
-#             # Add any additional commands for deployment
-#             cd ~/${{ github.event.repository.name }}
-#             sudo docker system prune -f
-#             sudo docker image prune -a --force
-#             sudo docker compose up --build --force-recreate --no-deps -d
-#             echo "done"
+                # Directory for the repository
+                REPO_DIR="~/${{ github.event.repository.name }}"
+
+                # Create directory if it doesn't exist
+                mkdir -p "$REPO_DIR"
+
+                # Create a new .env file with secrets
+                echo "${{ secrets.DOTENV }}" | sudo tee -a "$REPO_DIR/.env"
+
+                # Download docker-compose.yml
+                wget https://raw.githubusercontent.com/gaolamthuy/gaolamthuy-api/main/docker-compose.yml -O "$REPO_DIR/docker-compose.yml"
+
+                # Add any additional deployment commands
+                echo "Deploying via SSH..."
+
+                # Navigate to the directory and execute docker-compose up
+                cd "$REPO_DIR"
+                docker-compose up --build --force-recreate --no-deps -d
+                echo "Deployment completed."
+            fi
